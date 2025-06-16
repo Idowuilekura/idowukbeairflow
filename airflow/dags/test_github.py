@@ -44,5 +44,5 @@ with DAG(
         task_id='extract_data_task',
         python_callable=extract_data
     )
-    # Set the task dependencies (>> used to +
+    # Set the task dependencies (>> used
     hello_task >> clean_task >> extract_data_task
