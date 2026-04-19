@@ -38,6 +38,7 @@ spec:
                       database=db,
                       user=user,
                       password=password,
+                      port=5434,
                       connect_timeout=5
                   )
                   cur = conn.cursor()
