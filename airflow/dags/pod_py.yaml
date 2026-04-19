@@ -34,6 +34,8 @@ spec:
           print("Read from:", file_to_read)
           print("Written to:", write_path)
           print("Final Content:\n", new_content)
+          mkdir -p /airflow/xcom
+          echo "{\"exit_code\": $status}" > /airflow/xcom/return.json
 
       volumeMounts:
         - name: my-volume
