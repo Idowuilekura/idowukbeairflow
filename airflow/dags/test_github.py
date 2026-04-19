@@ -5,6 +5,8 @@ import os
 
 pod_path = os.path.join(os.getcwd(),"pod_py.yaml")
 
+print(os.path.list())
+
 # @dag(
 #     dag_id='testdag',
 #     start_date=datetime(2023, 5, 1),
