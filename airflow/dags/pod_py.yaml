@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: python-postgres-tester
-  namespace: airflow
+  namespace: spark-apps
 spec:
   restartPolicy: Never
   containers:
