@@ -3,7 +3,8 @@ import pandas as pd
 from airflow.decorators import dag, task
 import os
 
-pod_path = os.path.join(os.getcwd(),"pod_py.yaml")
+dags_path = os.path.join(os.getcwd(), 'dags')
+pod_path = os.path.join(dags_path,"pod_py.yaml")
 
 print(os.listdir(os.getcwd()))
 
