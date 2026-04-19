@@ -87,7 +87,9 @@ kube_task = KubernetesPodOperator(
     name="templated-pod",
     on_finish_action="delete_pod",
     do_xcom_push = True,
-    dag=dag
+    arguments=['echo \'{"key": "value"}\' > /airflow/xcom/return.json'],
+    dag=dag,
+     
 )
 
 kube_task
