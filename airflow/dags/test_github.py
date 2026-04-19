@@ -6,7 +6,7 @@ import os
 dags_path = os.path.join(os.getcwd(), 'dags')
 pod_path = os.path.join(dags_path,"pod_py.yaml")
 
-print(os.listdir(os.getcwd()))
+print(os.listdir(dags_path))
 
 # @dag(
 #     dag_id='testdag',
