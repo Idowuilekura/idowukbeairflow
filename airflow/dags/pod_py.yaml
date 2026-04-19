@@ -11,6 +11,8 @@ spec:
       args:
         - |
           from pathlib import Path
+          import os
+          import json
 
           base_path = Path("/app/data/kube_data")
 
@@ -34,8 +36,18 @@ spec:
           print("Read from:", file_to_read)
           print("Written to:", write_path)
           print("Final Content:\n", new_content)
-          mkdir -p /airflow/xcom
-          echo "{\"exit_code\": $status}" > /airflow/xcom/return.json
+
+          # Write XCom output
+          os.makedirs("/airflow/xcom", exist_ok=True)
+
+          result = {
+              "status": "success",
+              "file_read": str(file_to_read) if file_to_read else None,
+              "output_path": str(write_path)
+          }
+
+          with open("/airflow/xcom/return.json", "w") as f:
+              json.dump(result, f)
 
       volumeMounts:
         - name: my-volume
