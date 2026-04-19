@@ -32,6 +32,31 @@ from airflow.decorators import dag, task
 #     hello_world_task() >> clean_up_task() >> extract_data()
 
 # my_dag()
+# from airflow.sdk import DAG 
+# from datetime import datetime
+# from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperator
+
+
+# dag = DAG(dag_id="kube_run",start_date=datetime(2025,2,1),schedule=None,default_args={
+#         'owner': 'airflow',
+#         'retries': 1
+#     })
+
+
+# kube_task = KubernetesPodOperator(name="hello-dry-run",
+#     image="debian",
+#     cmds=["bash", "-cx"],
+#     arguments=["echo", "10"],
+#     labels={"foo": "bar"},
+#     task_id="dry_run_demo",
+#     do_xcom_push=True,
+#     on_finish_action="delete_pod",
+#     dag=dag
+# )
+
+# kube_task 
+
+
 from airflow.sdk import DAG 
 from datetime import datetime
 from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperator
@@ -43,15 +68,10 @@ dag = DAG(dag_id="kube_run",start_date=datetime(2025,2,1),schedule=None,default_
     })
 
 
-kube_task = KubernetesPodOperator(name="hello-dry-run",
-    image="debian",
-    cmds=["bash", "-cx"],
-    arguments=["echo", "10"],
-    labels={"foo": "bar"},
-    task_id="dry_run_demo",
-    do_xcom_push=True,
-    on_finish_action="delete_pod",
+kube_task = KubernetesPodOperator(
+    task_id="run_with_template",
+    pod_template_file="./pod_py.yaml", # Path to your YAML
+    name="templated-pod",
+    namespace="default",
     dag=dag
 )
-
-kube_task 
