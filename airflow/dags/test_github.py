@@ -66,12 +66,22 @@ dag = DAG(dag_id="kube_run",start_date=datetime(2025,2,1),schedule=None,default_
         'owner': 'airflow',
         'retries': 1
     })
-
+# image="debian",
+# #     cmds=["bash", "-cx"],
+# #     arguments=["echo", "10"],
+# #     labels={"foo": "bar"},
+# #     task_id="dry_run_demo",
+# #     do_xcom_push=True,
+# #     on_finish_action="delete_pod",
+# #     dag=dag
 
 kube_task = KubernetesPodOperator(
     task_id="run_with_template",
     pod_template_file="./pod_py.yaml", # Path to your YAML
     name="templated-pod",
-    namespace="default",
+    on_finish_action="delete_pod",
+    do_xcom_push = True,
     dag=dag
 )
+
+kube_task
