@@ -1,6 +1,9 @@
 from datetime import datetime
 import pandas as pd
 from airflow.decorators import dag, task
+import os
+
+pod_path = os.path.join(os.getcwd(),"pod_py.yaml")
 
 # @dag(
 #     dag_id='testdag',
@@ -77,7 +80,7 @@ dag = DAG(dag_id="kube_run",start_date=datetime(2025,2,1),schedule=None,default_
 
 kube_task = KubernetesPodOperator(
     task_id="run_with_template",
-    pod_template_file="./pod_py.yaml", # Path to your YAML
+    pod_template_file=pod_path, # Path to your YAML
     name="templated-pod",
     on_finish_action="delete_pod",
     do_xcom_push = True,
