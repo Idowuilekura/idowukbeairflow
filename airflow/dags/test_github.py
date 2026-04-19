@@ -6,6 +6,8 @@ import os
 dags_path = os.path.join(os.getcwd(), 'dags/repo/airflow/dags')
 pod_path = os.path.join(dags_path,"pod_py.yaml")
 
+pod_postgres_path = os.path.join(dags_path,"pod_postgres.yaml")
+
 print(os.listdir(dags_path))
 
 # @dag(
@@ -91,4 +93,14 @@ kube_task = KubernetesPodOperator(
      
 )
 
-kube_task
+kube_postgres_task = KubernetesPodOperator(
+    task_id="kube_postgres_task",
+    pod_template_file=pod_postgres_path, # Path to your YAML
+    name="templated-pod-new",
+    on_finish_action="delete_pod",
+    do_xcom_push = True,
+    dag=dag,
+     
+)
+
+kube_task >> kube_postgres_task
