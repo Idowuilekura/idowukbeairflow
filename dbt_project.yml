@@ -1,0 +1,25 @@
+name: codex_duckdb_demo
+version: "1.0.0"
+config-version: 2
+
+profile: codex_duckdb_demo
+
+model-paths:
+  - models
+seed-paths:
+  - seeds
+test-paths:
+  - tests
+macro-paths:
+  - macros
+
+models:
+  codex_duckdb_demo:
+    staging:
+      +materialized: view
+    marts:
+      +materialized: table
+
+seeds:
+  codex_duckdb_demo:
+    +quote_columns: false

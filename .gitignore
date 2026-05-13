@@ -1,0 +1,20 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.mypy_cache/
+
+# dbt
+target/
+dbt_packages/
+logs/
+.user.yml
+
+# Local DuckDB database files
+*.duckdb
+*.duckdb.wal
+
+# Local editor and OS files
+.DS_Store
+.idea/
+.vscode/

@@ -1,0 +1,23 @@
+version: 2
+
+models:
+  - name: stg_orders
+    description: Cleaned order records from the raw order seed.
+    columns:
+      - name: order_id
+        tests:
+          - not_null
+          - unique
+      - name: customer_id
+        tests:
+          - not_null
+      - name: status
+        tests:
+          - accepted_values:
+              values:
+                - completed
+                - returned
+                - cancelled
+      - name: amount
+        tests:
+          - not_null

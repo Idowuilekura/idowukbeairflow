@@ -1,0 +1,7 @@
+codex_duckdb_demo:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: codex_duckdb_demo.duckdb
+      threads: 4
