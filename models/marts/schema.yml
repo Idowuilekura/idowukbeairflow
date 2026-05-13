@@ -1,0 +1,16 @@
+version: 2
+
+models:
+  - name: customer_order_summary
+    description: Customer-level order counts and completed revenue.
+    columns:
+      - name: customer_id
+        tests:
+          - not_null
+          - unique
+      - name: total_orders
+        tests:
+          - not_null
+      - name: completed_revenue
+        tests:
+          - not_null
