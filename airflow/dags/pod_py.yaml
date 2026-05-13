@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: python-hostpath-writer
+spec:
+  restartPolicy: Never
+  containers:
+    - name: python-container
+      image: python:3.10-slim
+      command: ["python", "-c"]
+      args:
+        - |
+          from pathlib import Path
+          import os
+          import json
+
+          base_path = Path("/app/data/kube_data")
+
+          # Pick a file inside the directory (example: first file)
+          if base_path.exists() and base_path.is_dir():
+              files = list(base_path.glob("*"))
+              file_to_read = files[0] if files else None
+          else:
+              file_to_read = None
+
+          if file_to_read and file_to_read.is_file():
+              original_content = file_to_read.read_text(encoding="utf-8")
+          else:
+              original_content = "No file found inside kube_data directory.\n"
+
+          new_content = f"read the data from {file_to_read}\n{original_content}"
+
+          write_path = Path("/app/data/output.txt")
+          write_path.write_text(new_content, encoding="utf-8")
+
+          print("Read from:", file_to_read)
+          print("Written to:", write_path)
+          print("Final Content:\n", new_content)
+
+          # Write XCom output
+          os.makedirs("/airflow/xcom", exist_ok=True)
+
+          result = {
+              "status": "success",
+              "file_read": str(file_to_read) if file_to_read else None,
+              "output_path": str(write_path)
+          }
+
+          with open("/airflow/xcom/return.json", "w") as f:
+              json.dump(result, f)
+
+      volumeMounts:
+        - name: my-volume
+          mountPath: /app/data
+
+  volumes:
+    - name: my-volume
+      persistentVolumeClaim:
+        claimName: my-pvc-new
